@@ -1,0 +1,433 @@
+:root {
+  --dark: #1a0000;
+  --red: #ff3b3b;
+  --dark-red: #8b0000;
+  --bg: #2b0000;
+  --white: #fff;
+  --radius: 16px;
+  --shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  --font: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font);
+  background: linear-gradient(to top right, #111, #2b0000, #000);
+  margin: 0;
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  background: #130000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  box-shadow: var(--shadow);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: crimson;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: crimson;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background: #1a0000;
+    width: 100%;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 15px;
+    border-bottom: 1px solid #400000;
+  }
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 60px 20px 30px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+}
+
+header h1 {
+  font-size: 2.4rem;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+header p {
+  max-width: 700px;
+  margin: 10px auto;
+  color: #ddd;
+}
+
+/* Form */
+.form-container {
+  max-width: 900px;
+  background: rgba(255,255,255,0.04);
+  margin: 30px auto;
+  padding: 30px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.grid-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #eee;
+}
+
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  transition: background 0.3s;
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Radio */
+.radio-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+
+fieldset {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+}
+
+legend {
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.custom-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.radio-btn {
+  padding: 6px 12px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-btn {
+  background: crimson;
+  color: white;
+}
+
+/* Button */
+button {
+  display: block;
+  margin: 40px auto 10px;
+  padding: 14px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(to right, var(--red), var(--dark-red));
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Result Box */
+.result {
+  margin-top: 25px;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  text-align: center;
+  display: none;
+}
+
+/* Diagnostic Button */
+.redirect-btn {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.redirect-btn button {
+  background: #8b0000;
+}
+
+/* Animations */
+.animate-slide-up {
+  animation: slideUp 1s ease;
+}
+.animate-fade-in {
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+
+/* === NAVBAR STYLING === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2b0000;
+  padding: 18px 25px;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: crimson;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+  color: crimson;
+}
+
+/* === MOBILE STYLES === */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #2b0000;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 15px 20px;
+    border-bottom: 1px solid #400000;
+  }
+}
+
+/* === NAVIGATION BAR === */
+.navbar {
+  background: #220000;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Logo stays on the left */
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: crimson;
+}
+
+/* Menu Toggle (hamburger) on the right for mobile */
+.menu-toggle {
+  font-size: 1.6rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: none;
+}
+
+/* Navigation Links (desktop) */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+}
+
+.nav-links li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+  color: crimson;
+}
+
+/* === MOBILE STYLES === */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    background: #1a0000;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 15px 20px;
+    display: none;
+    border-top: 1px solid #400000;
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links li {
+    text-align: left;
+    padding: 10px 0;
+    border-bottom: 1px solid #400000;
+  }
+
+  /* Align nav horizontally in mobile */
+  .navbar {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.vertical-inputs input[type="number"] {
+  margin-bottom: 20px; /* Adjust this number as needed */
+}
