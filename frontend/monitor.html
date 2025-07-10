@@ -6,13 +6,217 @@
   <title>ClotCare | Diagnostic Monitor</title>
   <link rel="stylesheet" href="styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --white: #fff;
+      --crimson: #ff3b3b;
+      --crimson-dark: #8b0000;
+      --maroon: #2b0000;
+      --black: #000;
+      --glass-bg: rgba(43, 0, 0, 0.7);
+      --glass-border: rgba(255, 59, 59, 0.18);
+      --radius: 20px;
+      --shadow: 0 8px 32px 0 rgba(255, 59, 59, 0.18);
+      --glow: 0 0 16px #ff3b3b, 0 0 32px #8b0000;
+      --glow-btn: 0 0 8px #ff3b3b, 0 0 16px #fff;
+      --transition: 0.3s cubic-bezier(.4,2,.3,1);
+    }
+    body.monitoring {
+      background: linear-gradient(135deg, #1a0000 0%, #570000 100%);
+      color: var(--white);
+      font-family: 'Inter', 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 0;
+      animation: fadeInBg 1.2s;
+    }
+    @keyframes fadeInBg {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .navbar {
+      background: var(--glass-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      box-shadow: var(--shadow);
+      border-bottom: 1.5px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      animation: slideDownNav 1s;
+    }
+    @keyframes slideDownNav {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--crimson);
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
+      user-select: none;
+      animation: neonPulseCustom 2.2s linear infinite;
+    }
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a:after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      border-radius: 2px;
+      transition: width 0.3s;
+      position: absolute;
+      left: 0; bottom: 0;
+    }
+    .nav-links a:hover:after, .nav-links a.active:after {
+      width: 100%;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--crimson);
+    }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+      .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background: var(--glass-bg);
+        width: 100%;
+        display: none;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .nav-links li {
+        padding: 15px;
+        border-bottom: 1px solid #400000;
+      }
+    }
+    .page-header {
+      text-align: center;
+      padding: 70px 20px 40px;
+      background: linear-gradient(120deg, rgba(255,59,59,0.10) 0%, rgba(139,0,0,0.10) 100%);
+      border-bottom: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      animation: fadeInHeader 1.2s;
+    }
+    @keyframes fadeInHeader {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--crimson);
+      margin-bottom: 10px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 12px var(--crimson), 0 0 24px var(--crimson-dark);
+      animation: neonPulseCustom 2.2s linear infinite;
+    }
+    .page-header p {
+      font-size: 1.1rem;
+      color: #ffd6d6;
+      text-shadow: 0 0 6px #2b0000;
+      animation: fadeInText 2s;
+    }
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .monitor-container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+    .canvas-wrapper {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 28px 24px 24px 24px;
+      margin: 28px 0;
+      box-shadow: 0 0 20px var(--crimson);
+      border: 1.5px solid var(--glass-border);
+      animation: fadeInSection 1.5s;
+    }
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chart-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffd6d6;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+      animation: neonPulseCustom 2.2s linear infinite;
+    }
+    canvas {
+      width: 100% !important;
+      height: 280px !important;
+      background: transparent;
+    }
+    #caseStatus {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #8fff8f;
+      margin-top: 40px;
+      text-shadow: 0 0 8px #8fff8f;
+      animation: fadeInSection 1.5s;
+    }
+    /* Neon Pulse Animation */
+    @keyframes neonPulseCustom {
+      0%   { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+      20%  { text-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark); }
+      40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--crimson); }
+      60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      70%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      80%  { text-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark); }
+      90%  { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+      100% { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+    }
+    .logo,
+    .page-header h1,
+    .chart-title,
+    .canvas-wrapper i {
+      animation: neonPulseCustom 2.2s linear infinite;
+    }
+  </style>
 </head>
 <body class="monitoring">
 
   <!-- Navigation -->
   <nav class="navbar">
-    <div class="logo">ClotCare™</div>
+    <div class="logo">ClotCare</div>
     <button class="menu-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
     <ul class="nav-links" id="navLinks">
       <li><a href="/frontend/index.html">Home</a></li>
@@ -32,19 +236,19 @@
   <!-- Charts -->
   <main class="monitor-container">
     <div class="canvas-wrapper">
-      <div class="chart-title">SpO₂ (%)</div>
+      <div class="chart-title"><i class="fas fa-tint"></i> SpO 2 (%)</div>
       <canvas id="spo2Chart"></canvas>
     </div>
     <div class="canvas-wrapper">
-      <div class="chart-title">Heart Rate (BPM)</div>
+      <div class="chart-title"><i class="fas fa-heart"></i> Heart Rate (BPM)</div>
       <canvas id="bpmChart"></canvas>
     </div>
     <div class="canvas-wrapper">
-      <div class="chart-title">Temperature (°C)</div>
+      <div class="chart-title"><i class="fas fa-thermometer-half"></i> Temperature ( 0C)</div>
       <canvas id="tempChart"></canvas>
     </div>
     <div class="canvas-wrapper">
-      <div class="chart-title">ECG Signal</div>
+      <div class="chart-title"><i class="fas fa-wave-square"></i> ECG Signal</div>
       <canvas id="ecgChart"></canvas>
     </div>
     <div id="caseStatus">Case: Normal</div>
@@ -59,8 +263,5 @@
     }
   </script>
 
-  
-
 </body>
 </html>
-
