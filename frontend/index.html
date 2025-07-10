@@ -1,1 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClotCare | Smart PE Detection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --white: #ffffff;
+      --red: #ff3b3b;
+      --dark-red: #8b0000;
+      --black: #000000;
+      --primary: var(--red);
+      --accent-dark: var(--dark-red);
+      --radius: 16px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+  background: linear-gradient(to top right, #000000, #ff3b3b, #8b0000, #000);
+  color: var(--black);
+}
+
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--white);
+      background: none;
+      border: none;
+    }
+
+    .menu-list {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .menu-list li a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .menu-list li a:hover {
+      color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      .menu-list {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: none;
+        animation: fadeDown 0.3s ease-in-out;
+      }
+
+      .menu-list.show {
+        display: flex;
+      }
+
+      .menu-list li {
+        padding: 12px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-align: left;
+      }
+
+      nav {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .logo {
+        order: 1;
+      }
+
+      .menu-toggle {
+        order: 2;
+      }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      padding: 100px 20px 60px;
+      text-align: center;
+    }
+
+    header h2 {
+      font-size: 3rem;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    header p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 1.25rem;
+      color: #eee;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .service-item {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius);
+      padding: 30px;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+      transition: all 0.4s ease;
+    }
+
+    .service-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-item .icon {
+      font-size: 2.2rem;
+      color: var(--accent-dark);
+      margin-bottom: 10px;
+    }
+
+    .service-item h4 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: var(--white);
+    }
+
+    .service-item p {
+      color: #ddd;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .text-button a {
+      color: var(--accent-dark);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .contact-section {
+      padding: 60px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+
+    .contact-section h2 {
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .contact-section input,
+    .contact-section button {
+      padding: 14px 16px;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      border: none;
+      margin: 10px;
+      width: 280px;
+    }
+
+    .contact-section input {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .contact-section button {
+      background: var(--red);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .innovation, .sdgs {
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 40px;
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+    }
+
+    .innovation h2, .sdgs h2 {
+      color: var(--accent-dark);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sdgs ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sdgs li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: #eee;
+    }
+
+    .info-footer {
+      background: rgba(0, 0, 0, 0.6);
+      color: #ccc;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    footer {
+      background: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="logo">ClotCare™</div>
+  <button class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+  <ul class="menu-list" id="menuList">
+    <li><a href="/frontend/form.html">Prediction System</a></li>
+    <li><a href="/frontend/monitor.html">Diagnostic System</a></li>
+    <li><a href="/frontend/curing.html">Curing System</a></li>
+    <li><a href="/frontend/chatbot.html">Medical AI-Chatbot</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header>
+  <h2><i class="fas fa-lungs"></i> Smart PE Detection & Response</h2>
+  <p>Harnessing AI and real-time sensors to predict, monitor, and respond to pulmonary embolism threats — intelligently and instantly.</p>
+</header>
+
+<!-- FEATURES -->
+<div class="section">
+  <div class="service-item">
+    <div class="icon"><i class="fas fa-brain"></i></div>
+    <h4>Predictive System</h4>
+    <p>AI-based analysis of patient data to assess PE risk using advanced machine learning techniques.</p>
+    <div class="text-button"><a href="/frontend/form.html">Read More <i class="fa fa-arrow-right"></i></a></div>
+  </div>
+  <div class="service-item">
+    <div class="icon"><i class="fas fa-heartbeat"></i></div>
+    <h4>Diagnostic System</h4>
+    <p>Real-time monitoring of ECG, SpO₂, heart rate, and temperature to detect PE symptoms early.</p>
+    <div class="text-button"><a href="/frontend/monitor.html">Read More <i class="fa fa-arrow-right"></i></a></div>
+  </div>
+  <div class="service-item">
+    <div class="icon"><i class="fas fa-briefcase-medical"></i></div>
+    <h4>Curing System</h4>
+    <p>Emergency alerts to hospitals and caregivers with GPS location and stabilization tips.</p>
+    <div class="text-button"><a href="/frontend/curing.html">Read More <i class="fa fa-arrow-right"></i></a></div>
+  </div>
+  <div class="service-item">
+    <div class="icon"><i class="fas fa-robot"></i></div>
+    <h4>AI Chatbot</h4>
+    <p>Conversational assistant for answering patient questions and guiding emergency response until help arrives.</p>
+    <div class="text-button"><a href="/frontend/chatbot.html">Read More <i class="fa fa-arrow-right"></i></a></div>
+  </div>
+</div>
+
+<!-- EMERGENCY CONTACT -->
+<div class="contact-section">
+  <h2><i class="fas fa-phone-alt"></i> Set Emergency Contact</h2>
+  <input type="email" placeholder="Emergency Email">
+  <input type="tel" placeholder="Emergency Phone Number">
+  <button onclick="alert('Emergency contact saved!')">Save Contact</button>
+</div>
+
+<!-- INNOVATION -->
+<div class="innovation">
+  <h2><i class="fas fa-rocket"></i> First of Its Kind</h2>
+  <p>ClotCare is the world's first fully integrated AI-based pulmonary embolism prediction, diagnostic, and response platform. Built from real clinical data and wearable tech.</p>
+</div>
+
+<!-- SDG -->
+<div class="sdgs">
+  <h2><i class="fas fa-globe-africa"></i> Sustainable Development Goals</h2>
+  <ul>
+    <li><strong>SDG 3 – Good Health:</strong> Early detection saves lives.</li>
+    <li><strong>SDG 8 – Decent Work:</strong> AI reduces medical burden.</li>
+    <li><strong>SDG 9 – Innovation:</strong> Wearable-based medical tech.</li>
+    <li><strong>SDG 10 – Inequality:</strong> Access for underserved communities.</li>
+  </ul>
+</div>
+
+<!-- CONTACT -->
+<div class="info-footer">
+  <h3><i class="fas fa-envelope"></i> Contact Information</h3>
+  <p>Email: <a href="mailto:clotcare.support@gmail.com">clotcare.support@gmail.com</a></p>
+  <p>Phone: +20 100 000 0000</p>
+  <p>Location: Qena STEM School, Qena, Egypt</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2025 ClotCare™ – Empowering global health through AI and innovation.
+</footer>
+
+<!-- JS -->
+<script>
+  function toggleMenu() {
+    document.getElementById("menuList").classList.toggle("show");
+  }
+</script>
+
+
+
+
+</body>
+</html>
 
