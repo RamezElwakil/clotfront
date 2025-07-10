@@ -193,8 +193,8 @@ function updateCharts() {
 
 // Start real-time update loop
 // --- Toggle Updates Button Logic ---
-let isUpdating = true;
-let updateInterval = setInterval(updateCharts, 1500);
+let isUpdating = false; // Default: not receiving data
+let updateInterval = null;
 
 const toggleBtn = document.getElementById('toggleUpdates');
 toggleBtn.addEventListener('click', () => {
@@ -214,7 +214,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 // Set initial button text
-if (toggleBtn) toggleBtn.textContent = 'Pause Updates';
+if (toggleBtn) toggleBtn.textContent = 'Resume Updates';
 
 // Initial dummy status
 updateStatus();
