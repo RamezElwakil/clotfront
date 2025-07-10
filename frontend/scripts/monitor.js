@@ -192,7 +192,29 @@ function updateCharts() {
 }
 
 // Start real-time update loop
-setInterval(updateCharts, 1500);
+// --- Toggle Updates Button Logic ---
+let isUpdating = true;
+let updateInterval = setInterval(updateCharts, 1500);
+
+const toggleBtn = document.getElementById('toggleUpdates');
+toggleBtn.addEventListener('click', () => {
+  isUpdating = !isUpdating;
+  if (isUpdating) {
+    updateInterval = setInterval(updateCharts, 1500);
+    toggleBtn.textContent = 'Pause Updates';
+  } else {
+    clearInterval(updateInterval);
+    toggleBtn.textContent = 'Resume Updates';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'h' || e.key === 'H') {
+    toggleBtn.style.display = toggleBtn.style.display === 'none' ? 'block' : 'none';
+  }
+});
+// Set initial button text
+if (toggleBtn) toggleBtn.textContent = 'Pause Updates';
 
 // Initial dummy status
 updateStatus();
