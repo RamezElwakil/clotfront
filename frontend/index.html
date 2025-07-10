@@ -5,262 +5,421 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ClotCare | Smart PE Detection</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --white: #ffffff;
-      --red: #ff3b3b;
-      --dark-red: #8b0000;
-      --black: #000000;
-      --primary: var(--red);
-      --accent-dark: var(--dark-red);
-      --radius: 16px;
-      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --white: #fff;
+      --crimson: #ff3b3b;
+      --crimson-dark: #8b0000;
+      --maroon: #2b0000;
+      --black: #000;
+      --glass-bg: rgba(43, 0, 0, 0.7);
+      --glass-border: rgba(255, 59, 59, 0.18);
+      --radius: 20px;
+      --shadow: 0 8px 32px 0 rgba(255, 59, 59, 0.18);
+      --glow: 0 0 16px #ff3b3b, 0 0 32px #8b0000;
+      --glow-btn: 0 0 8px #ff3b3b, 0 0 16px #fff;
+      --transition: 0.3s cubic-bezier(.4,2,.3,1);
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', 'Orbitron', sans-serif;
       scroll-behavior: smooth;
     }
-
     body {
-  background: linear-gradient(to top right, #000000, #ff3b3b, #8b0000, #000);
-  color: var(--black);
-}
-
-
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a0000 0%, #570000 100%);
+      color: var(--white);
+      overflow-x: hidden;
+      animation: fadeInBg 1.2s;
+    }
+    @keyframes fadeInBg {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 30px;
-      background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(10px);
+      padding: 22px 40px;
+      background: var(--glass-bg);
+      border-bottom: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
       z-index: 1000;
+      animation: slideDownNav 1s;
     }
-
+    @keyframes slideDownNav {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
     .logo {
-      font-size: 1.8rem;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      font-size: 2.1rem;
       font-weight: bold;
-      color: var(--primary);
+      color: var(--crimson);
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
+      user-select: none;
+      animation: neonPulse 2s infinite alternate;
     }
-
+    @keyframes neonPulse {
+      from { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+      to { text-shadow: 0 0 24px #fff, 0 0 32px var(--crimson); }
+    }
     .menu-toggle {
       display: none;
-      font-size: 1.8rem;
+      font-size: 2rem;
       cursor: pointer;
       color: var(--white);
       background: none;
       border: none;
     }
-
     .menu-list {
       list-style: none;
       display: flex;
-      gap: 25px;
+      gap: 32px;
     }
-
     .menu-list li a {
       color: var(--white);
       text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      padding: 8px 18px;
+      border-radius: 12px;
+      transition: var(--transition);
+      box-shadow: none;
+      position: relative;
+      overflow: hidden;
     }
-
+    .menu-list li a:after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      border-radius: 2px;
+      transition: width 0.3s;
+      position: absolute;
+      left: 0; bottom: 0;
+    }
+    .menu-list li a:hover:after, .menu-list li a.active:after {
+      width: 100%;
+    }
     .menu-list li a:hover {
-      color: var(--primary);
+      color: var(--crimson);
+      background: rgba(255,59,59,0.08);
+      box-shadow: 0 0 8px var(--crimson);
+      letter-spacing: 2px;
     }
-
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
+      .menu-toggle { display: block; }
       .menu-list {
         position: absolute;
-        top: 60px;
+        top: 70px;
         left: 0;
         width: 100%;
         flex-direction: column;
-        background-color: rgba(0, 0, 0, 0.9);
+        background: var(--glass-bg);
         display: none;
         animation: fadeDown 0.3s ease-in-out;
       }
-
-      .menu-list.show {
-        display: flex;
-      }
-
+      .menu-list.show { display: flex; }
       .menu-list li {
-        padding: 12px 25px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 16px 30px;
+        border-bottom: 1px solid var(--glass-border);
         text-align: left;
       }
-
-      nav {
-        flex-direction: row;
-        justify-content: space-between;
-      }
-
-      .logo {
-        order: 1;
-      }
-
-      .menu-toggle {
-        order: 2;
-      }
+      nav { flex-direction: row; justify-content: space-between; }
+      .logo { order: 1; }
+      .menu-toggle { order: 2; }
     }
-
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     header {
-      padding: 100px 20px 60px;
+      padding: 110px 20px 70px;
       text-align: center;
+      background: linear-gradient(120deg, rgba(255,59,59,0.10) 0%, rgba(139,0,0,0.10) 100%);
+      border-bottom: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      animation: fadeInHeader 1.2s;
     }
-
+    @keyframes fadeInHeader {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     header h2 {
-      font-size: 3rem;
-      color: var(--white);
-      margin-bottom: 20px;
+      font-size: 3.2rem;
+      color: var(--crimson);
+      margin-bottom: 22px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 12px var(--crimson), 0 0 24px var(--crimson-dark);
+      animation: neonPulse 2s infinite alternate;
     }
-
     header p {
       max-width: 800px;
       margin: auto;
-      font-size: 1.25rem;
-      color: #eee;
+      font-size: 1.3rem;
+      color: #ffd6d6;
+      text-shadow: 0 0 6px #2b0000;
+      animation: fadeInText 2s;
     }
-
+    @keyframes fadeInText {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     .section {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      padding: 60px 40px;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 36px;
+      padding: 70px 40px;
       max-width: 1200px;
       margin: auto;
+      animation: fadeInSection 1.5s;
     }
-
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .service-item {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: var(--glass-bg);
+      border: 1.5px solid var(--glass-border);
       border-radius: var(--radius);
-      padding: 30px;
-      backdrop-filter: blur(8px);
+      padding: 38px 28px 32px 28px;
+      backdrop-filter: blur(12px);
       box-shadow: var(--shadow);
-      transition: all 0.4s ease;
+      transition: all 0.4s cubic-bezier(.4,2,.3,1);
+      position: relative;
+      overflow: hidden;
+      animation: popInCard 1.2s;
     }
-
+    @keyframes popInCard {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .service-item:before {
+      content: '';
+      position: absolute;
+      top: -40%; left: -40%;
+      width: 180%; height: 180%;
+      background: linear-gradient(120deg, var(--crimson) 0%, var(--crimson-dark) 100%);
+      opacity: 0.13;
+      filter: blur(32px);
+      z-index: 0;
+      pointer-events: none;
+      animation: floatBg 6s infinite alternate;
+    }
+    @keyframes floatBg {
+      from { transform: scale(1) rotate(0deg); }
+      to { transform: scale(1.05) rotate(2deg); }
+    }
     .service-item:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 0 32px var(--crimson), 0 0 16px var(--crimson-dark);
+      border-color: var(--crimson);
     }
-
     .service-item .icon {
-      font-size: 2.2rem;
-      color: var(--accent-dark);
-      margin-bottom: 10px;
+      font-size: 2.6rem;
+      color: var(--crimson);
+      margin-bottom: 14px;
+      text-shadow: 0 0 8px var(--crimson);
+      z-index: 1;
+      position: relative;
+      animation: iconGlow 2s infinite alternate;
     }
-
+    @keyframes iconGlow {
+      from { text-shadow: 0 0 8px var(--crimson); }
+      to { text-shadow: 0 0 24px #fff, 0 0 32px var(--crimson); }
+    }
     .service-item h4 {
-      margin-bottom: 10px;
-      font-size: 1.3rem;
-      color: var(--white);
-    }
-
-    .service-item p {
-      color: #ddd;
       margin-bottom: 12px;
-      font-size: 0.95rem;
-    }
-
-    .text-button a {
-      color: var(--accent-dark);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .contact-section {
-      padding: 60px 20px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    .contact-section h2 {
+      font-size: 1.35rem;
       color: var(--white);
-      margin-bottom: 20px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      letter-spacing: 1px;
+      z-index: 1;
+      position: relative;
     }
-
+    .service-item p {
+      color: #ffd6d6;
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+      z-index: 1;
+      position: relative;
+    }
+    .text-button a {
+      color: var(--crimson);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px var(--crimson);
+      transition: color 0.2s;
+      z-index: 1;
+      position: relative;
+      border-bottom: 2px solid transparent;
+    }
+    .text-button a:hover {
+      color: var(--white);
+      text-shadow: 0 0 8px var(--white);
+      border-bottom: 2px solid var(--crimson);
+    }
+    .contact-section {
+      padding: 70px 20px 60px;
+      text-align: center;
+      background: var(--glass-bg);
+      border-radius: var(--radius);
+      margin: 60px auto 0 auto;
+      max-width: 700px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      animation: fadeInContact 1.5s;
+    }
+    @keyframes fadeInContact {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .contact-section h2 {
+      color: var(--crimson);
+      margin-bottom: 24px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+      animation: neonPulse 2s infinite alternate;
+    }
     .contact-section input,
     .contact-section button {
-      padding: 14px 16px;
-      font-size: 1rem;
+      padding: 16px 18px;
+      font-size: 1.08rem;
       border-radius: var(--radius);
       border: none;
-      margin: 10px;
-      width: 280px;
+      margin: 12px;
+      width: 290px;
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      box-shadow: 0 0 8px var(--crimson);
+      border: 1.5px solid var(--glass-border);
+      outline: none;
+      transition: box-shadow 0.2s;
     }
-
-    .contact-section input {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+    .contact-section input:focus {
+      box-shadow: 0 0 16px var(--crimson);
     }
-
     .contact-section button {
-      background: var(--red);
-      color: white;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      color: var(--white);
       cursor: pointer;
       font-weight: bold;
+      box-shadow: var(--glow-btn);
+      transition: background 0.2s, box-shadow 0.2s;
     }
-
+    .contact-section button:hover {
+      background: linear-gradient(90deg, var(--crimson-dark), var(--crimson));
+      box-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark);
+    }
     .innovation, .sdgs {
       max-width: 900px;
-      margin: 40px auto;
-      background: rgba(255, 255, 255, 0.08);
-      padding: 40px;
+      margin: 50px auto;
+      background: var(--glass-bg);
+      padding: 48px;
       border-radius: var(--radius);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      animation: fadeInSection 1.5s;
     }
-
     .innovation h2, .sdgs h2 {
-      color: var(--accent-dark);
+      color: var(--crimson);
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+      animation: neonPulse 2s infinite alternate;
     }
-
     .sdgs ul {
       list-style: none;
       padding: 0;
     }
-
     .sdgs li {
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      color: #eee;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--glass-border);
+      color: #ffd6d6;
+      font-size: 1.08rem;
     }
-
     .info-footer {
-      background: rgba(0, 0, 0, 0.6);
-      color: #ccc;
+      background: var(--glass-bg);
+      color: #ffd6d6;
       text-align: center;
-      padding: 40px 20px;
+      padding: 48px 20px;
+      border-radius: var(--radius);
+      margin: 60px auto 0 auto;
+      max-width: 700px;
+      box-shadow: var(--shadow);
+      border: 1.5px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      animation: fadeInContact 1.5s;
+    }
+    .info-footer h3 {
+      color: var(--crimson);
+      margin-bottom: 18px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+      animation: neonPulse 2s infinite alternate;
+    }
+    .info-footer a {
+      color: var(--white);
+      text-shadow: 0 0 8px var(--crimson);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .info-footer a:hover {
+      color: var(--crimson);
+      text-shadow: 0 0 8px var(--crimson);
+    }
+    footer {
+      background: #1a0000;
+      color: #ffd6d6;
+      text-align: center;
+      padding: 24px;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      border-top: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow);
+      animation: fadeInFooter 1.5s;
+    }
+    @keyframes fadeInFooter {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    footer {
-      background: #000;
-      color: #aaa;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.85rem;
+    /* Custom Neon Pulse Animation (smooth ramp up and down) */
+    @keyframes neonPulseCustom {
+      0%   { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+      40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--crimson); }
+      50%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      100% { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+    }
+
+    .logo,
+    header h2,
+    .contact-section h2,
+    .innovation h2,
+    .sdgs h2,
+    .info-footer h3,
+    .service-item .icon,
+    header h2 i,
+    .contact-section h2 i,
+    .innovation h2 i,
+    .sdgs h2 i,
+    .info-footer h3 i {
+      animation: neonPulseCustom 2.2s linear infinite;
     }
   </style>
 </head>
@@ -357,9 +516,5 @@
   }
 </script>
 
-
-
-
 </body>
 </html>
-
