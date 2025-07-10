@@ -1,0 +1,134 @@
+/* Monitoring Theme */
+body.monitoring {
+  background: linear-gradient(to bottom right, #570000, #1a0000);
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #220000;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: crimson;
+}
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+.nav-links li a:hover,
+.nav-links li a.active {
+  color: crimson;
+}
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #220000;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    padding: 20px 0;
+  }
+  .nav-links.open {
+    display: flex;
+    animation: slideDown 0.3s ease-in-out;
+  }
+  .nav-links li {
+    text-align: left;
+    padding: 10px 20px;
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}
+
+/* Page Header */
+.page-header {
+  text-align: center;
+  padding: 50px 20px 30px;
+  animation: fadeInTop 1s ease;
+}
+.page-header h1 {
+  font-size: 2.5rem;
+  color: #ff4d4d;
+  margin-bottom: 10px;
+}
+.page-header p {
+  font-size: 1.1rem;
+  color: #eee;
+}
+@keyframes fadeInTop {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Charts Layout */
+.monitor-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+.canvas-wrapper {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  animation: fadeIn 1s ease-in-out;
+}
+.chart-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ffcccc;
+}
+canvas {
+  width: 100% !important;
+  height: 280px !important;
+  background: transparent;
+}
+#caseStatus {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #8fff8f;
+  margin-top: 40px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
