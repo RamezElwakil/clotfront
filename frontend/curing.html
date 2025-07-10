@@ -4,72 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ClotCare | Emergency Curing</title>
-
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-
-  <!-- AOS Animations -->
-  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
-  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
-
-  <!-- Leaflet Map -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-
   <style>
     :root {
-      --bg: linear-gradient(to bottom right, #570000, #000000);
-      --accent: #ff3b3b;
-      --soft-accent: #ff6666;
-      --dark: #1a0000;
-      --light-text: #f5f5f5;
       --white: #fff;
-      --box: rgba(255, 255, 255, 0.06);
-      --radius: 18px;
-      --shadow: 0 8px 32px rgba(0,0,0,0.5);
+      --crimson: #ff3b3b;
+      --crimson-dark: #8b0000;
+      --maroon: #2b0000;
+      --black: #000;
+      --glass-bg: rgba(43, 0, 0, 0.7);
+      --glass-border: rgba(255, 59, 59, 0.18);
+      --radius: 20px;
+      --shadow: 0 8px 32px 0 rgba(255, 59, 59, 0.18);
+      --glow: 0 0 16px #ff3b3b, 0 0 32px #8b0000;
+      --glow-btn: 0 0 8px #ff3b3b, 0 0 16px #fff;
+      --transition: 0.3s cubic-bezier(.4,2,.3,1);
     }
-
-    * {
-      box-sizing: border-box;
-      scroll-behavior: smooth;
+    body {
+      font-family: 'Inter', 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #1a0000 0%, #570000 100%);
+      color: var(--white);
+      line-height: 1.6;
+      animation: fadeInBg 1.2s;
       margin: 0;
       padding: 0;
     }
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: var(--bg);
-      color: var(--light-text);
-      line-height: 1.6;
-      animation: fadeInBody 1s ease-in-out;
+    @keyframes fadeInBg {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-
-    @keyframes fadeInBody {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
     .navbar {
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(12px);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 18px 30px;
+      padding: 18px 32px;
       position: sticky;
       top: 0;
       z-index: 1000;
       box-shadow: var(--shadow);
+      border-bottom: 1.5px solid var(--glass-border);
+      animation: slideDownNav 1s;
     }
-
+    @keyframes slideDownNav {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
     .logo {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--accent);
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      color: var(--crimson);
       font-size: 1.6rem;
       font-weight: bold;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
+      user-select: none;
+      animation: neonPulseCustom 2.2s linear infinite;
     }
-
     .menu-toggle {
       display: none;
       font-size: 1.8rem;
@@ -78,90 +72,107 @@
       border: none;
       cursor: pointer;
     }
-
     .nav-links {
       list-style: none;
       display: flex;
       gap: 18px;
     }
-
-    .nav-links li a {
-      color: var(--light-text);
+    .nav-links a {
+      color: var(--white);
       text-decoration: none;
       font-weight: 600;
       transition: 0.3s;
+      position: relative;
     }
-
-    .nav-links li a:hover,
-    .nav-links li a.active {
-      color: var(--accent);
+    .nav-links a:after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      border-radius: 2px;
+      transition: width 0.3s;
+      position: absolute;
+      left: 0; bottom: 0;
     }
-
+    .nav-links a:hover:after, .nav-links a.active:after {
+      width: 100%;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--crimson);
+    }
     @media (max-width: 768px) {
       .menu-toggle { display: block; }
-
       .nav-links {
         display: none;
         position: absolute;
         top: 60px;
         left: 0;
         width: 100%;
-        background: rgba(0,0,0,0.95);
+        background: var(--glass-bg);
         flex-direction: column;
         animation: slideDown 0.3s ease;
       }
-
       .nav-links.open { display: flex; }
-
       .nav-links li {
         padding: 14px 20px;
         text-align: center;
       }
-
       @keyframes slideDown {
         from { opacity: 0; transform: translateY(-10px); }
         to   { opacity: 1; transform: translateY(0); }
       }
     }
-
     .container {
       max-width: 750px;
       margin: 40px auto;
       padding: 30px;
-      background: var(--box);
+      background: var(--glass-bg);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
+      animation: fadeInSection 1.5s;
     }
-
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     h1 {
       text-align: center;
-      color: var(--accent);
-      font-family: 'Montserrat', sans-serif;
+      color: var(--crimson);
+      font-family: 'Orbitron', 'Inter', sans-serif;
       margin-bottom: 30px;
       font-size: 1.6rem;
+      text-shadow: 0 0 12px var(--crimson), 0 0 24px var(--crimson-dark);
+      animation: neonPulseCustom 2.2s linear infinite;
     }
-
     .status {
       background: rgba(255, 255, 255, 0.08);
       padding: 14px 18px;
-      border-left: 5px solid var(--soft-accent);
+      border-left: 5px solid #ff6666;
       border-radius: 10px;
       margin: 12px 0;
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 0.98rem;
+      box-shadow: 0 0 8px var(--crimson);
+      animation: fadeInSection 1.5s;
     }
-
+    .status i {
+      color: var(--crimson);
+      animation: neonPulseCustom 2.2s linear infinite;
+    }
     .location {
       background: rgba(255,255,255,0.08);
       padding: 20px;
       border-radius: 16px;
       text-align: center;
       margin-top: 30px;
+      box-shadow: 0 0 8px var(--crimson);
+      animation: fadeInSection 1.5s;
     }
-
     #map {
       height: 250px;
       width: 100%;
@@ -169,128 +180,130 @@
       margin-top: 15px;
       box-shadow: var(--shadow);
     }
-
     .tips {
       margin-top: 35px;
     }
-
     .tips h2 {
-      color: var(--accent);
+      color: var(--crimson);
       text-align: center;
       margin-bottom: 15px;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+      animation: neonPulseCustom 2.2s linear infinite;
     }
-
     .tips ol {
       padding-left: 20px;
     }
-
     .tips li {
       margin-bottom: 10px;
       background: rgba(255,255,255,0.08);
       padding: 12px 15px;
       border-radius: 10px;
       list-style: decimal;
+      box-shadow: 0 0 8px var(--crimson);
+      animation: fadeInSection 1.5s;
     }
-
     .chatbot-button {
       text-align: center;
       margin-top: 35px;
     }
-
     .chatbot-button a button {
-      background: linear-gradient(to right, #cc0000, #8b0000);
-      color: white;
-      font-size: 16px;
-      padding: 13px 26px;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      border-radius: 16px;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      color: var(--white);
       font-weight: bold;
-      box-shadow: var(--shadow);
-      transition: transform 0.25s ease;
+      box-shadow: var(--glow-btn);
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      animation: fadeInSection 1.5s;
     }
-
     .chatbot-button a button:hover {
-      transform: scale(1.05);
+      background: linear-gradient(90deg, var(--crimson-dark), var(--crimson));
+      box-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark);
     }
-
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #bbb;
+    @keyframes neonPulseCustom {
+      0%   { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+      40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--crimson); }
+      50%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
+      100% { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
+    }
+    .logo,
+    h1,
+    .tips h2,
+    .status i {
+      animation: neonPulseCustom 2.2s linear infinite;
     }
   </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="logo">ClotCare™</div>
-  <button class="menu-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="/frontend/index.html">Home</a></li>
-    <li><a href="/frontend/form.html">Predictive</a></li>
-    <li><a href="/frontend/monitor.html">Diagnostic</a></li>
-    <li><a href="/frontend/curing.html" class="active">Curing</a></li>
-    <li><a href="/frontend/chatbot.html">Chatbot</a></li>
-  </ul>
-</nav>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">ClotCare</div>
+    <button class="menu-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/frontend/index.html">Home</a></li>
+      <li><a href="/frontend/form.html">Predictive</a></li>
+      <li><a href="/frontend/monitor.html">Diagnostic</a></li>
+      <li><a href="/frontend/curing.html" class="active">Curing</a></li>
+      <li><a href="/frontend/chatbot.html">Chatbot</a></li>
+    </ul>
+  </nav>
 
-
-
-
-<!-- CONTENT -->
-<div class="container" data-aos="fade-up">
-  <h1><i class="fas fa-heartbeat"></i> Emergency Curing System</h1>
-
-  <div class="status" data-aos="fade-up"><i class="fas fa-envelope"></i> Emergency email sent to the nearest hospital.</div>
-  <div class="status" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-phone-volume"></i> Calling your emergency contact...</div>
-
-  <div class="location" data-aos="zoom-in-up" data-aos-delay="200">
-    <strong><i class="fas fa-map-marker-alt"></i> Your Location:</strong><br>
-    Latitude: <b>30.4074</b>, Longitude: <b>30.4848</b>
-    <div id="map"></div>
+  <div class="container">
+    <h1><i class="fas fa-briefcase-medical"></i> Emergency Curing System</h1>
+    <div class="status" data-aos="fade-right">
+      <i class="fas fa-bell"></i>
+      <span><strong>Status:</strong> Emergency alert sent to hospital and caregivers.</span>
+    </div>
+    <div class="status" data-aos="fade-right" data-aos-delay="100">
+      <i class="fas fa-location-dot"></i>
+      <span><strong>Location:</strong> Latitude: <b>30.4074</b>, Longitude: <b>30.4848</b></span>
+    </div>
+    <div class="location" data-aos="fade-up">
+      <h3>Patient's Current Location</h3>
+      <div id="map"></div>
+      <div style="margin-top:12px;font-size:1.08rem;color:#ffd6d6;text-shadow:0 0 6px #2b0000;">
+        Latitude: <b>30.4074</b>, Longitude: <b>30.4848</b>
+      </div>
+    </div>
+    <div class="tips" data-aos="fade-up" data-aos-delay="200">
+      <h2><i class="fas fa-lightbulb"></i> Stabilization Tips</h2>
+      <ol>
+        <li>Keep the patient calm and in a comfortable position.</li>
+        <li>Monitor vital signs and breathing.</li>
+        <li>Administer oxygen if available and needed.</li>
+        <li>Do not give anything by mouth if unconscious.</li>
+        <li>Prepare for rapid transport to the nearest hospital.</li>
+      </ol>
+    </div>
+    <div class="chatbot-button" data-aos="fade-up" data-aos-delay="300">
+      <a href="/frontend/chatbot.html">
+        <button><i class="fas fa-robot"></i> Open Medical Chatbot</button>
+      </a>
+    </div>
   </div>
 
-  <div class="tips" data-aos="fade-up" data-aos-delay="300">
-    <h2><i class="fas fa-stethoscope"></i> Pulmonary Embolism First Aid</h2>
-    <ol>
-      <li>Stay calm and limit all movement.</li>
-      <li>Lie down and slightly raise your legs if possible.</li>
-      <li>Loosen any tight clothing around chest or neck.</li>
-      <li>Take deep, slow breaths.</li>
-      <li>Do not eat, drink, or self-medicate.</li>
-      <li>Activate your medical alert if available.</li>
-      <li>Wait for help — stay alert and still.</li>
-    </ol>
-  </div>
-
-  <div class="chatbot-button" data-aos="fade-in" data-aos-delay="400">
-    <a href="/frontend/chatbot.html">
-      <button><i class="fas fa-robot"></i> Ask the Medical AI Chatbot</button>
-    </a>
-  </div>
-
-  <div class="footer">&copy; 2025 ClotCare™ – Saving lives through AI-driven emergency response.</div>
-</div>
-
-<!-- SCRIPTS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script>
-  function toggleNav() {
-    document.getElementById('navLinks').classList.toggle('open');
-  }
-
-  AOS.init();
-
-  const lat = 30.4074, lng = 30.4848;
-  const map = L.map('map').setView([lat, lng], 15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
-  L.marker([lat, lng]).addTo(map).bindPopup("📍 You are here").openPopup();
-</script>
-
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    function toggleNav() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+    AOS.init();
+    // Map
+    var map = L.map('map').setView([30.4074, 30.4848], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+    L.marker([30.4074, 30.4848]).addTo(map)
+      .bindPopup('Latitude: 30.4074, Longitude: 30.4848')
+      .openPopup();
+  </script>
 </body>
 </html>
