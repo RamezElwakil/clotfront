@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClotCare | Diagnostic Monitor</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="monitoring">
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">ClotCare™</div>
+    <button class="menu-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/frontend/index.html">Home</a></li>
+      <li><a href="/frontend/form.html">Predictive</a></li>
+      <li><a href="/frontend/monitor.html" class="active">Diagnostic</a></li>
+      <li><a href="/frontend/curing.html">Curing</a></li>
+      <li><a href="/frontend/chatbot.html">Chatbot</a></li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header class="page-header">
+    <h1><i class="fas fa-heartbeat"></i> Diagnostic System</h1>
+    <p>Real-time vitals monitoring for early pulmonary embolism detection.</p>
+  </header>
+
+  <!-- Charts -->
+  <main class="monitor-container">
+    <div class="canvas-wrapper">
+      <div class="chart-title">SpO₂ (%)</div>
+      <canvas id="spo2Chart"></canvas>
+    </div>
+    <div class="canvas-wrapper">
+      <div class="chart-title">Heart Rate (BPM)</div>
+      <canvas id="bpmChart"></canvas>
+    </div>
+    <div class="canvas-wrapper">
+      <div class="chart-title">Temperature (°C)</div>
+      <canvas id="tempChart"></canvas>
+    </div>
+    <div class="canvas-wrapper">
+      <div class="chart-title">ECG Signal</div>
+      <canvas id="ecgChart"></canvas>
+    </div>
+    <div id="caseStatus">Case: Normal</div>
+  </main>
+
+  <button id="toggleUpdates" style="position:fixed; bottom:10px; right:10px; z-index:1000; opacity:0; background:none; border:none; width:60px; height:60px; cursor:pointer;">Toggle Updates</button>
+
+  <script src="scripts/monitor.js"></script>
+  <script>
+    function toggleNav() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+  </script>
+
+  
+
+</body>
+</html>
 
