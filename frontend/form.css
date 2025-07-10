@@ -51,9 +51,10 @@ body {
   color: var(--red);
   font-family: 'Orbitron', 'Inter', sans-serif;
   letter-spacing: 2px;
-  text-shadow: 0 0 8px var(--red), 0 0 16px var(--dark-red);
   user-select: none;
-  animation: neonPulseCustom 2.2s linear infinite;
+  /* Remove pulsing and glow */
+  text-shadow: none;
+  animation: none;
 }
 .menu-toggle {
   display: none;
@@ -130,8 +131,8 @@ header h1 {
   color: var(--red);
   margin-bottom: 10px;
   font-family: 'Orbitron', 'Inter', sans-serif;
-  text-shadow: 0 0 12px var(--red), 0 0 24px var(--dark-red);
-  animation: neonPulseCustom 2.2s linear infinite;
+  text-shadow: none;
+  animation: none;
 }
 header p {
   max-width: 700px;
@@ -165,10 +166,10 @@ header p {
   color: #ffd6d6;
   font-family: 'Inter', 'Orbitron', sans-serif;
   letter-spacing: 1px;
-  text-shadow: 0 0 8px var(--red);
   margin-bottom: 8px;
   display: block;
-  animation: neonPulseCustom 2.2s linear infinite;
+  text-shadow: none;
+  animation: none;
 }
 .vertical-inputs input[type="number"],
 .vertical-inputs input[type="text"] {
@@ -210,8 +211,8 @@ legend {
   margin-bottom: 10px;
   color: #ffd6d6;
   font-family: 'Inter', 'Orbitron', sans-serif;
-  text-shadow: 0 0 8px var(--red);
-  animation: neonPulseCustom 2.2s linear infinite;
+  text-shadow: none;
+  animation: none;
 }
 .custom-radio {
   display: inline-flex;
@@ -282,11 +283,4 @@ button[type="submit"]:hover {
 .redirect-btn button:hover {
   background: linear-gradient(90deg, var(--dark-red), var(--red));
   box-shadow: 0 0 16px var(--red), 0 0 32px var(--dark-red);
-}
-@keyframes neonPulseCustom {
-  0%   { text-shadow: 0 0 8px var(--red), 0 0 16px var(--dark-red); }
-  40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--red); }
-  50%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--red); }
-  60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--red); }
-  100% { text-shadow: 0 0 8px var(--red), 0 0 16px var(--dark-red); }
 }
