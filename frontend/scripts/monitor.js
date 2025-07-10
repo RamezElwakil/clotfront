@@ -25,9 +25,6 @@ let chartData = JSON.parse(localStorage.getItem('chartData')) || {
   ecg: []
 };
 
-// Always start with fresh chart data
-localStorage.removeItem('chartData');
-
 function createChart(ctx, label, color) {
   let min, max;
   if (label === 'BPM') {
@@ -165,10 +162,13 @@ function updateCharts() {
       const spo2 = parseFloat(data.spo2);
       const hr = parseInt(data.hr);
       const temp = parseFloat(data.temp);
-      const ecg = parseFloat(data.ecg);
+      // Use the next value from ECG_PATTERN for ECG
+      const ecg = ECG_PATTERN[ecgIndex];
+      ecgIndex = (ecgIndex + 1) % ECG_PATTERN.length;
 
       updateStatus(); // Always normal
 
+      // Use the custom ecg value, others from backend
       ['spo2', 'hr', 'temp', 'ecg'].forEach((key, i) => {
         const val = [spo2, hr, temp, ecg][i];
         chartData[key].push(val);
