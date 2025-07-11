@@ -5,6 +5,9 @@ const ECG_PATTERN = [
 
 let ecgIndex = 0;
 let statusElement = document.getElementById('caseStatus');
+let ecgShowZeros = false; // Flag to control ECG display (zeros vs normal)
+let isUpdating = false; // Flag to control main updates
+let updateInterval = null; // Main update interval
 
 // Chart color scheme
 const chartColors = {
@@ -162,13 +165,13 @@ function updateCharts() {
       const spo2 = parseFloat(data.spo2);
       const hr = parseInt(data.hr);
       const temp = parseFloat(data.temp);
-      // Use the next value from ECG_PATTERN for ECG
-      const ecg = ECG_PATTERN[ecgIndex];
+      // Use the next value from ECG_PATTERN for ECG, or zero if flag is set
+      const ecg = ecgShowZeros ? 0 : ECG_PATTERN[ecgIndex];
       ecgIndex = (ecgIndex + 1) % ECG_PATTERN.length;
 
       updateStatus(); // Always normal
 
-      // Use the custom ecg value, others from backend
+      // Update all charts including ECG
       ['spo2', 'hr', 'temp', 'ecg'].forEach((key, i) => {
         const val = [spo2, hr, temp, ecg][i];
         chartData[key].push(val);
@@ -193,12 +196,10 @@ function updateCharts() {
 
 // Start real-time update loop
 // --- Toggle Updates Button Logic ---
-let isUpdating = false; // Default: not receiving data
-let updateInterval = null;
-
 const toggleBtn = document.getElementById('toggleUpdates');
 toggleBtn.addEventListener('click', () => {
   isUpdating = !isUpdating;
+  ecgShowZeros = false; // Set ECG to show normal data
   if (isUpdating) {
     updateInterval = setInterval(updateCharts, 1500);
     toggleBtn.textContent = 'Pause Updates';
@@ -212,9 +213,28 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'h' || e.key === 'H') {
     toggleBtn.style.display = toggleBtn.style.display === 'none' ? 'block' : 'none';
   }
+  if (e.key === 'e' || e.key === 'E') {
+    ecgControlBtn.style.display = ecgControlBtn.style.display === 'none' ? 'block' : 'none';
+  }
 });
+
+// ECG Control Button Logic
+const ecgControlBtn = document.getElementById('ecgControl');
+ecgControlBtn.addEventListener('click', () => {
+  isUpdating = !isUpdating;
+  ecgShowZeros = true; // Set ECG to show zeros
+  if (isUpdating) {
+    updateInterval = setInterval(updateCharts, 1500);
+    ecgControlBtn.textContent = 'Pause Updates (ECG: Zeros)';
+  } else {
+    clearInterval(updateInterval);
+    ecgControlBtn.textContent = 'Resume Updates (ECG: Zeros)';
+  }
+});
+
 // Set initial button text
 if (toggleBtn) toggleBtn.textContent = 'Resume Updates';
+if (ecgControlBtn) ecgControlBtn.textContent = 'Resume Updates (ECG: Zeros)';
 
 // Initial dummy status
 updateStatus();
