@@ -65,11 +65,6 @@
       letter-spacing: 2px;
       text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
       user-select: none;
-      animation: neonPulse 2s infinite alternate;
-    }
-    @keyframes neonPulse {
-      from { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-      to { text-shadow: 0 0 24px #fff, 0 0 32px var(--crimson); }
     }
     .menu-toggle {
       display: none;
@@ -161,7 +156,18 @@
       margin-bottom: 22px;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 12px var(--crimson), 0 0 24px var(--crimson-dark);
-      animation: neonPulse 2s infinite alternate;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    .heart-logo {
+      font-size: 3rem;
+      background: var(--black);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--crimson-dark);
+      animation: none !important;
     }
     header p {
       max-width: 800px;
@@ -232,11 +238,6 @@
       text-shadow: 0 0 8px var(--crimson);
       z-index: 1;
       position: relative;
-      animation: iconGlow 2s infinite alternate;
-    }
-    @keyframes iconGlow {
-      from { text-shadow: 0 0 8px var(--crimson); }
-      to { text-shadow: 0 0 24px #fff, 0 0 32px var(--crimson); }
     }
     .service-item h4 {
       margin-bottom: 12px;
@@ -291,7 +292,6 @@
       margin-bottom: 24px;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 8px var(--crimson);
-      animation: neonPulse 2s infinite alternate;
     }
     .contact-section input,
     .contact-section button {
@@ -340,7 +340,6 @@
       margin-bottom: 24px;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 8px var(--crimson);
-      animation: neonPulse 2s infinite alternate;
     }
     .sdgs ul {
       list-style: none;
@@ -370,7 +369,6 @@
       margin-bottom: 18px;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 8px var(--crimson);
-      animation: neonPulse 2s infinite alternate;
     }
     .info-footer a {
       color: var(--white);
@@ -398,29 +396,7 @@
       to { opacity: 1; }
     }
 
-    /* Custom Neon Pulse Animation (smooth ramp up and down) */
-    @keyframes neonPulseCustom {
-      0%   { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-      40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--crimson); }
-      50%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
-      60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
-      100% { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-    }
 
-    .logo,
-    header h2,
-    .contact-section h2,
-    .innovation h2,
-    .sdgs h2,
-    .info-footer h3,
-    .service-item .icon,
-    header h2 i,
-    .contact-section h2 i,
-    .innovation h2 i,
-    .sdgs h2 i,
-    .info-footer h3 i {
-      animation: neonPulseCustom 2.2s linear infinite;
-    }
   </style>
 </head>
 <body>
