@@ -61,7 +61,6 @@
       letter-spacing: 2px;
       text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
       user-select: none;
-      animation: neonPulseCustom 2.2s linear infinite;
     }
     .menu-toggle {
       display: none;
@@ -139,7 +138,6 @@
       margin-bottom: 10px;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 12px var(--crimson), 0 0 24px var(--crimson-dark);
-      animation: neonPulseCustom 2.2s linear infinite;
     }
     .page-header p {
       font-size: 1.1rem;
@@ -177,7 +175,6 @@
       color: #ffd6d6;
       font-family: 'Orbitron', 'Inter', sans-serif;
       text-shadow: 0 0 8px var(--crimson);
-      animation: neonPulseCustom 2.2s linear infinite;
     }
     canvas {
       width: 100% !important;
@@ -193,23 +190,7 @@
       text-shadow: 0 0 8px #8fff8f;
       animation: fadeInSection 1.5s;
     }
-    /* Neon Pulse Animation */
-    @keyframes neonPulseCustom {
-      0%   { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-      20%  { text-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark); }
-      40%  { text-shadow: 0 0 24px #fff, 0 0 40px var(--crimson); }
-      60%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
-      70%  { text-shadow: 0 0 32px #fff, 0 0 48px var(--crimson); }
-      80%  { text-shadow: 0 0 16px var(--crimson), 0 0 32px var(--crimson-dark); }
-      90%  { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-      100% { text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark); }
-    }
-    .logo,
-    .page-header h1,
-    .chart-title,
-    .canvas-wrapper i {
-      animation: neonPulseCustom 2.2s linear infinite;
-    }
+
   </style>
 </head>
 <body class="monitoring">
@@ -255,6 +236,9 @@
   </main>
 
   <button id="toggleUpdates" style="position:fixed; bottom:10px; right:10px; z-index:1000; opacity:0; background:none; border:none; width:60px; height:60px; cursor:pointer;">Toggle Updates</button>
+  
+  <!-- ECG Control Button -->
+  <button id="ecgControl" style="position:fixed; bottom:10px; left:10px; z-index:1000; opacity:0; background:none; border:none; width:60px; height:60px; cursor:pointer;">ECG Control</button>
 
   <script src="scripts/monitor.js"></script>
   <script>
