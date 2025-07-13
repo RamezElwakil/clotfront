@@ -262,13 +262,13 @@
     </div>
     <div class="status" data-aos="fade-right" data-aos-delay="100">
       <i class="fas fa-location-dot"></i>
-      <span><strong>Location:</strong> Latitude: <b>30.4074</b>, Longitude: <b>30.4848</b></span>
+      <span><strong>Location:</strong> Latitude: <b>30.386</b>, Longitude: <b>30.489</b></span>
     </div>
     <div class="location" data-aos="fade-up">
       <h3>Patient's Current Location</h3>
       <div id="map"></div>
       <div style="margin-top:12px;font-size:1.08rem;color:#ffd6d6;text-shadow:0 0 6px #2b0000;">
-        Latitude: <b>30.4074</b>, Longitude: <b>30.4848</b>
+        Latitude: <b>30.386</b>, Longitude: <b>30.489</b>
       </div>
     </div>
     <div class="tips" data-aos="fade-up" data-aos-delay="200">
@@ -290,19 +290,46 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="config.js"></script>
   <script>
     function toggleNav() {
       document.getElementById("navLinks").classList.toggle("open");
     }
+    
+    // Send emergency email when page loads
+    async function sendEmergencyEmail() {
+      try {
+        const response = await fetch(CONFIG.API_BASE_URL + CONFIG.ENDPOINTS.EMERGENCY_EMAIL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          console.log('Emergency email sent successfully');
+        } else {
+          console.log('Failed to send emergency email');
+        }
+      } catch (error) {
+        console.log('Error sending emergency email:', error);
+      }
+    }
+    
+    // Trigger email when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      sendEmergencyEmail();
+    });
+    
     AOS.init();
     // Map
-    var map = L.map('map').setView([30.4074, 30.4848], 15);
+    var map = L.map('map').setView([30.386, 30.489], 15);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap'
     }).addTo(map);
-    L.marker([30.4074, 30.4848]).addTo(map)
-      .bindPopup('Latitude: 30.4074, Longitude: 30.4848')
+    L.marker([30.386, 30.489]).addTo(map)
+      .bindPopup('Latitude: 30.386, Longitude: 30.489')
       .openPopup();
   </script>
 </body>
