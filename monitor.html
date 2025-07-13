@@ -191,6 +191,156 @@
       animation: fadeInSection 1.5s;
     }
 
+    /* Simulation Styles */
+    .simulation-container {
+      text-align: center;
+      margin-top: 30px;
+      position: relative;
+    }
+
+    .simulation-toggle {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      color: var(--white);
+      border: 2px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .simulation-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
+    }
+
+    .simulation-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-top: 10px;
+      box-shadow: var(--shadow);
+      min-width: 280px;
+      display: none;
+      animation: slideInMenu 0.3s ease-out;
+      z-index: 1000;
+    }
+
+    @keyframes slideInMenu {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .simulation-menu h3 {
+      color: var(--crimson);
+      margin: 0 0 20px 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      text-shadow: 0 0 8px var(--crimson);
+    }
+
+    .simulation-options {
+      margin-bottom: 20px;
+    }
+
+    .simulation-option {
+      display: block;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .simulation-option:hover {
+      transform: translateX(5px);
+    }
+
+    .simulation-option input[type="radio"] {
+      display: none;
+    }
+
+    .option-text {
+      display: block;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: var(--white);
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .simulation-option input[type="radio"]:checked + .option-text {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      border-color: var(--crimson);
+      box-shadow: 0 0 10px var(--crimson);
+    }
+
+    .start-simulation-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #00ff88, #00cc6a);
+      color: var(--black);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    }
+
+    .start-simulation-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+    }
+
+    .start-simulation-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .simulation-error {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 10px;
+      min-height: 20px;
+      font-weight: 500;
+    }
+
+    /* Blood clot detected status */
+    #caseStatus.blood-clot {
+      color: #ff6b6b !important;
+      text-shadow: 0 0 8px #ff6b6b !important;
+      animation: pulseRed 1s infinite;
+    }
+
+    @keyframes pulseRed {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
   </style>
 </head>
 <body class="monitoring">
@@ -233,6 +383,34 @@
       <canvas id="ecgChart"></canvas>
     </div>
     <div id="caseStatus">Case: Normal</div>
+    
+    <!-- Simulation Menu -->
+    <div class="simulation-container">
+      <button id="simulationToggle" class="simulation-toggle">
+        <i class="fas fa-play-circle"></i> Simulation
+      </button>
+      <div id="simulationMenu" class="simulation-menu">
+        <h3><i class="fas fa-flask"></i> Choose Simulation Type</h3>
+        <div class="simulation-options">
+          <label class="simulation-option">
+            <input type="radio" name="simulationType" value="sinus-tachycardia">
+            <span class="option-text">1 - Sinus Tachycardia</span>
+          </label>
+          <label class="simulation-option">
+            <input type="radio" name="simulationType" value="s1q3t3">
+            <span class="option-text">2 - S1Q3T3</span>
+          </label>
+          <label class="simulation-option">
+            <input type="radio" name="simulationType" value="inverted-t-wave">
+            <span class="option-text">3 - Inverted T Wave</span>
+          </label>
+        </div>
+        <button id="startSimulation" class="start-simulation-btn">
+          <i class="fas fa-rocket"></i> Start Simulation
+        </button>
+        <div id="simulationError" class="simulation-error"></div>
+      </div>
+    </div>
   </main>
 
   <button id="toggleUpdates" style="position:fixed; bottom:10px; right:10px; z-index:1000; opacity:0; background:none; border:none; width:60px; height:60px; cursor:pointer;">Toggle Updates</button>
