@@ -1,6 +1,17 @@
 const ECG_PATTERN = [
-  304.2, 312.3, 293.5, 362.4, 323.4, 301.7, 534.1,
+  287.2, 312.3, 293.5, 362.4, 323.4, 301.7, 534.1,
   317.2, 309.3, 286.5, 375.4, 329.4, 311.7, 581.1
+];
+
+// S1Q3T3 pattern
+const ECG_SIMULATION_PATTERN_S1Q3T3 = [
+  304.2, 312.3, 293.5, 362.4, 323.4, 301.7, -122.1,
+  317.2, 309.3, 286.5, 375.4, 329.4, 311.7, -83.1
+];
+// Sinus Tachycardia and Inverted T Wave pattern
+const ECG_SIMULATION_PATTERN_OTHER = [
+  304.2, 203.3, 293.5, 362.4, 323.4, 301.7, 534.1,
+  317.2, 246.3, 286.5, 375.4, 329.4, 311.7, 581.1
 ];
 
 let ecgIndex = 0;
@@ -8,6 +19,10 @@ let statusElement = document.getElementById('caseStatus');
 let ecgShowZeros = false; // Flag to control ECG display (zeros vs normal)
 let isUpdating = false; // Flag to control main updates
 let updateInterval = null; // Main update interval
+let isSimulationActive = false; // Flag to control simulation
+let simulationTimer = null; // Timer for simulation sequence
+let selectedSimulationType = null;
+let selectedSimulationPattern = ECG_SIMULATION_PATTERN_S1Q3T3;
 
 // Chart color scheme
 const chartColors = {
@@ -39,6 +54,9 @@ function createChart(ctx, label, color) {
   } else if (label === 'Temperature (°C)') {
     min = 36;
     max = 39;
+  } else if (label === 'ECG Signal') {
+    min = -200;
+    max = 600;
   }
 
   return new Chart(ctx, {
@@ -150,10 +168,15 @@ const ecgChart = createChart(
 });
 [spo2Chart, bpmChart, tempChart, ecgChart].forEach(c => c.update());
 
-// Always normal
-function updateStatus() {
-  statusElement.textContent = 'Case: Normal';
-  statusElement.className = 'normal';
+// Update status based on state
+function updateStatus(state = 'normal') {
+  if (state === 'blood-clot') {
+    statusElement.textContent = 'Case: Blood Clot Detected';
+    statusElement.className = 'blood-clot';
+  } else {
+    statusElement.textContent = 'Case: Normal';
+    statusElement.className = 'normal';
+  }
 }
 
 function updateCharts() {
@@ -165,11 +188,15 @@ function updateCharts() {
       const spo2 = parseFloat(data.spo2);
       const hr = parseInt(data.hr);
       const temp = parseFloat(data.temp);
-      // Use the next value from ECG_PATTERN for ECG, or zero if flag is set
-      const ecg = ecgShowZeros ? 0 : ECG_PATTERN[ecgIndex];
-      ecgIndex = (ecgIndex + 1) % ECG_PATTERN.length;
+      // Use simulation pattern if simulation is active, otherwise use normal pattern
+      const ecg = isSimulationActive ? selectedSimulationPattern[ecgIndex] : (ecgShowZeros ? 0 : ECG_PATTERN[ecgIndex]);
+      ecgIndex = (ecgIndex + 1) % (isSimulationActive ? selectedSimulationPattern.length : ECG_PATTERN.length);
 
-      updateStatus(); // Always normal
+      // Update status based on simulation state
+      if (!isSimulationActive) {
+        updateStatus('normal');
+      }
+      // During simulation, status is controlled manually in startSimulationSequence
 
       // Update all charts including ECG
       ['spo2', 'hr', 'temp', 'ecg'].forEach((key, i) => {
@@ -235,6 +262,78 @@ ecgControlBtn.addEventListener('click', () => {
 // Set initial button text
 if (toggleBtn) toggleBtn.textContent = 'Resume Updates';
 if (ecgControlBtn) ecgControlBtn.textContent = 'Resume Updates (ECG: Zeros)';
+
+// Simulation functionality
+const simulationToggle = document.getElementById('simulationToggle');
+const simulationMenu = document.getElementById('simulationMenu');
+const startSimulationBtn = document.getElementById('startSimulation');
+const simulationError = document.getElementById('simulationError');
+
+// Toggle simulation menu
+simulationToggle.addEventListener('click', () => {
+  simulationMenu.style.display = simulationMenu.style.display === 'block' ? 'none' : 'block';
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!simulationToggle.contains(e.target) && !simulationMenu.contains(e.target)) {
+    simulationMenu.style.display = 'none';
+  }
+});
+
+// Start simulation
+startSimulationBtn.addEventListener('click', () => {
+  const selectedType = document.querySelector('input[name="simulationType"]:checked');
+  
+  if (!selectedType) {
+    simulationError.textContent = 'Please choose your simulation type!';
+    return;
+  }
+  
+  simulationError.textContent = '';
+  simulationMenu.style.display = 'none';
+  
+  // Store the selected simulation type
+  selectedSimulationType = selectedType.value;
+  // Choose the pattern based on type
+  if (selectedSimulationType === 's1q3t3') {
+    selectedSimulationPattern = ECG_SIMULATION_PATTERN_S1Q3T3;
+  } else {
+    selectedSimulationPattern = ECG_SIMULATION_PATTERN_OTHER;
+  }
+  // Start simulation sequence
+  startSimulationSequence();
+});
+
+function startSimulationSequence() {
+  // Stop any existing updates
+  if (updateInterval) {
+    clearInterval(updateInterval);
+  }
+  
+  // Reset ECG index for simulation pattern
+  ecgIndex = 0;
+  
+  // Start simulation mode
+  isSimulationActive = true;
+  isUpdating = true;
+  
+  // Start updates with simulation ECG pattern
+  updateInterval = setInterval(updateCharts, 1500);
+  
+  // First 17 seconds: Keep status as Normal
+  updateStatus('normal');
+  
+  // After 17 seconds, change status to blood clot detected
+  setTimeout(() => {
+    updateStatus('blood-clot');
+  }, 17000);
+  
+  // After 23 seconds total (6 more seconds after blood clot detection), navigate to curing page
+  setTimeout(() => {
+    window.location.href = '/frontend/curing.html';
+  }, 23000);
+}
 
 // Initial dummy status
 updateStatus();
