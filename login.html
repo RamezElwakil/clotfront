@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClotCare | Login</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #fff;
+      --crimson: #ff3b3b;
+      --crimson-dark: #8b0000;
+      --maroon: #2b0000;
+      --black: #000;
+      --glass-bg: rgba(43, 0, 0, 0.7);
+      --glass-border: rgba(255, 59, 59, 0.18);
+      --radius: 20px;
+      --shadow: 0 8px 32px 0 rgba(255, 59, 59, 0.18);
+      --glow: 0 0 16px #ff3b3b, 0 0 32px #8b0000;
+      --glow-btn: 0 0 8px #ff3b3b, 0 0 16px #fff;
+      --transition: 0.3s cubic-bezier(.4,2,.3,1);
+    }
+    body {
+      background: linear-gradient(135deg, #1a0000 0%, #570000 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', 'Orbitron', sans-serif;
+      padding-top: 90px;
+    }
+    .navbar {
+      width: 100vw;
+      left: 0;
+      top: 0;
+      background: var(--glass-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      box-shadow: var(--shadow);
+      border-bottom: 1.5px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      position: fixed;
+      z-index: 999;
+      animation: slideDownNav 1s;
+    }
+    @keyframes slideDownNav {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--crimson);
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px var(--crimson), 0 0 16px var(--crimson-dark);
+      user-select: none;
+    }
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 2.2rem;
+      cursor: pointer;
+      z-index: 2000;
+      padding: 8px 12px;
+      margin-right: 8px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a:after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(90deg, var(--crimson), var(--crimson-dark));
+      border-radius: 2px;
+      transition: width 0.3s;
+      position: absolute;
+      left: 0; bottom: 0;
+    }
+    .nav-links a:hover:after, .nav-links a.active:after {
+      width: 100%;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--crimson);
+    }
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+        z-index: 2000;
+      }
+      .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background: var(--glass-bg);
+        width: 100vw;
+        display: none;
+        box-shadow: 0 8px 32px 0 rgba(255, 59, 59, 0.18);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        padding-bottom: 16px;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .nav-links li {
+        padding: 18px 0;
+        border-bottom: 1px solid #400000;
+        text-align: center;
+      }
+      .nav-links a {
+        font-size: 1.15rem;
+        width: 100%;
+        display: block;
+        padding: 8px 0;
+      }
+      body.menu-open::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(43,0,0,0.5);
+        z-index: 998;
+      }
+      .login-container {
+        margin-top: 110px;
+      }
+    }
+    .login-container {
+      background: rgba(43, 0, 0, 0.92);
+      border-radius: 32px;
+      box-shadow: 0 0 32px 0 #ff3b3b55, 0 0 0 4px #ff3b3b22;
+      border: 2.5px solid rgba(255, 59, 59, 0.22);
+      padding: 56px 40px 40px 40px;
+      width: 370px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1.2s;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+      margin-top: 60px;
+      max-width: 95vw;
+    }
+    .login-container:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 32px;
+      box-shadow: 0 0 60px 10px #ff3b3b44;
+      pointer-events: none;
+      z-index: 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .login-title {
+      font-family: 'Orbitron', 'Inter', sans-serif;
+      color: #ff3b3b;
+      font-size: 2.3rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 0 0 18px #ff3b3b, 0 0 32px #8b0000;
+      letter-spacing: 2.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1;
+    }
+    .login-title i {
+      font-size: 2.1rem;
+      filter: drop-shadow(0 0 8px #ff3b3b);
+    }
+    .login-desc {
+      color: #ffd6d6;
+      font-size: 1.13rem;
+      margin-bottom: 36px;
+      text-align: center;
+      z-index: 1;
+    }
+    .login-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      z-index: 1;
+    }
+    .login-form label {
+      color: #ffd6d6;
+      font-weight: 600;
+      margin-bottom: 7px;
+      font-size: 1.07rem;
+      letter-spacing: 0.5px;
+    }
+    .login-form input[type="text"],
+    .login-form input[type="password"],
+    .login-form button {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 10px;
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+    .login-form input[type="text"],
+    .login-form input[type="password"] {
+      padding-top: 13px;
+      padding-bottom: 13px;
+      border: 2px solid #ff3b3b44;
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      font-size: 1.08rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 #ff3b3b;
+      margin-bottom: 0;
+    }
+    .login-form button {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      background: linear-gradient(135deg, #ff3b3b, #8b0000);
+      color: #fff;
+      border: none;
+      font-size: 1.18rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 0 24px #ff3b3b44;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
+    .login-form button:hover {
+      background: linear-gradient(135deg, #ff3b3b, #ff6b6b);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 0 32px #ff3b3b88;
+    }
+    .login-error {
+      color: #ff6b6b;
+      font-size: 1.05rem;
+      margin-top: 10px;
+      min-height: 22px;
+      text-align: center;
+      font-weight: 600;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">ClotCare</div>
+    <button class="menu-toggle" onclick="toggleNav()" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="form.html">Predictive</a></li>
+      <li><a href="monitor.html">Diagnostic</a></li>
+      <li><a href="curing.html">Curing</a></li>
+      <li><a href="chatbot.html">Chatbot</a></li>
+    </ul>
+  </nav>
+  <script>
+    function toggleNav() {
+      document.getElementById("navLinks").classList.toggle("open");
+      document.body.classList.toggle("menu-open");
+    }
+    // Close menu when a link is clicked (on mobile)
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          document.getElementById("navLinks").classList.remove("open");
+          document.body.classList.remove("menu-open");
+        }
+      });
+    });
+  </script>
+  <div class="login-container">
+    <div class="login-title"><i class="fas fa-user-shield"></i> Login</div>
+    <div class="login-desc">Sign in to access the Diagnostic System</div>
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <div>
+        <label for="username">Vest ID</label>
+        <input type="text" id="username" name="username" required autofocus autocomplete="username" />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+      </div>
+      <button type="submit">Login</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+  </div>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      // Always clear both storages before setting
+      localStorage.removeItem('clotcare_logged_in');
+      sessionStorage.removeItem('clotcare_logged_in');
+      if (username === 'vest-001' && password === 'admin') {
+        sessionStorage.setItem('clotcare_logged_in', '1');
+        window.location.href = 'monitor.html';
+      } else {
+        loginError.textContent = 'Invalid username or password.';
+      }
+    });
+    // If already logged in, redirect to monitor.html
+    if (sessionStorage.getItem('clotcare_logged_in') === '1') {
+      window.location.href = 'monitor.html';
+    }
+  </script>
+</body>
+</html> 
