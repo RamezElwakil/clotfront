@@ -337,3 +337,24 @@ function startSimulationSequence() {
 
 // Initial dummy status
 updateStatus();
+
+// --- LOGIN CHECK ---
+if (!(localStorage.getItem('clotcare_logged_in') === '1' || sessionStorage.getItem('clotcare_logged_in') === '1')) {
+  window.location.href = 'login.html';
+}
+// --- END LOGIN CHECK ---
+// Add logout link below the navbar
+window.addEventListener('DOMContentLoaded', function() {
+  // Find the navbar
+  var navbar = document.querySelector('.navbar');
+  if (navbar) {
+    var logoutDiv = document.createElement('div');
+    logoutDiv.innerHTML = '<a id="logoutLink" style="color:#ff6b6b; font-weight:600; text-decoration:none; font-size:1rem; margin:18px 32px 0 0; display:block; text-align:right;">Logout</a>';
+    navbar.insertAdjacentElement('afterend', logoutDiv);
+    document.getElementById('logoutLink').addEventListener('click', function() {
+      localStorage.removeItem('clotcare_logged_in');
+      sessionStorage.removeItem('clotcare_logged_in');
+      window.location.href = 'login.html';
+    });
+  }
+});
