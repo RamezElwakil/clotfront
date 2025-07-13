@@ -6,13 +6,13 @@
   <title>ClotCare | VT Risk Predictor</title>
   <link rel="stylesheet" href="form.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet"/>
 </head>
 <body class="form-page">
 
   <!-- Navigation -->
 <nav class="navbar">
-  <div class="logo">ClotCare™</div>
+  <div class="logo">ClotCare</div>
   <button class="menu-toggle" onclick="toggleNav()"><i class="fas fa-bars"></i></button>
   <ul class="nav-links" id="navLinks">
     <li><a href="/frontend/index.html">Home</a></li>
@@ -22,8 +22,6 @@
     <li><a href="/frontend/chatbot.html">Chatbot</a></li>
   </ul>
 </nav>
-
-
 
   <!-- Header -->
   <header>
@@ -35,112 +33,86 @@
   <main class="form-container animate-slide-up">
     <form id="riskForm">
       <div class="vertical-inputs">
-        <label><i class="fas fa-user"></i> Age
+        <label><i class="fas fa-user"></i> Age of the patient (in years)
           <input type="number" name="age" required placeholder="e.g. 45">
         </label>
-        <label><i class="fas fa-thermometer-half"></i> Temperature (°C)
+        <label><i class="fas fa-thermometer-half"></i> Current body temperature (°C)
           <input type="number" step="0.1" name="temperature" required placeholder="e.g. 36.5">
         </label>
-        <label><i class="fas fa-weight"></i> BMI
+        <label><i class="fas fa-weight"></i> Body Mass Index (BMI)
           <input type="number" step="0.1" name="bmi" required placeholder="e.g. 22.4">
         </label>
-        <label><i class="fas fa-vial"></i> Platelets
+        <label><i class="fas fa-vial"></i> Platelet count (per μL)
           <input type="number" name="platelets" required placeholder="e.g. 200000">
         </label>
       </div>
-
       <!-- Radio Fields -->
       <div class="radio-group animate-fade-in">
   <fieldset>
-    <legend>Trauma (last 3 months)</legend>
+    <legend>Has the patient experienced any significant trauma in the past 3 months?</legend>
     <label class="custom-radio"><input type="radio" name="trauma" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="trauma" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>History of VT</legend>
+    <legend>Has the patient ever had a history of venous thromboembolism (VT)?</legend>
     <label class="custom-radio"><input type="radio" name="vt_history" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="vt_history" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Active Cancer</legend>
+    <legend>Is the patient currently diagnosed with active cancer?</legend>
     <label class="custom-radio"><input type="radio" name="cancer" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="cancer" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Chronic Lung Disease</legend>
+    <legend>Does the patient have a history of chronic lung disease?</legend>
     <label class="custom-radio"><input type="radio" name="lung" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="lung" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Renal Failure</legend>
+    <legend>Has the patient been diagnosed with renal failure?</legend>
     <label class="custom-radio"><input type="radio" name="renal" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="renal" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Diabetes</legend>
+    <legend>Has the patient ever been diagnosed with diabetes mellitus?</legend>
     <label class="custom-radio"><input type="radio" name="diabetes" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="diabetes" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Edema</legend>
+    <legend>Is the patient currently experiencing edema (swelling)?</legend>
     <label class="custom-radio"><input type="radio" name="edema" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="edema" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Immobility > 72h</legend>
+    <legend>Has the patient been immobile for more than 72 hours?</legend>
     <label class="custom-radio"><input type="radio" name="immobility" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="immobility" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Pneumonia</legend>
+    <legend>Has the patient been diagnosed with pneumonia?</legend>
     <label class="custom-radio"><input type="radio" name="pneumonia" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="pneumonia" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
   <fieldset>
-    <legend>Atrial Fibrillation (AF)</legend>
+    <legend>Does the patient have a history of atrial fibrillation (AF)?</legend>
     <label class="custom-radio"><input type="radio" name="af" value="Yes" required><span class="radio-btn">Yes</span></label>
     <label class="custom-radio"><input type="radio" name="af" value="No" required><span class="radio-btn">No</span></label>
   </fieldset>
 </div>
-
-
       <button type="submit"><i class="fas fa-check-circle"></i> Predict Risk</button>
     </form>
-
     <div class="result" id="resultBox"></div>
-
     <div class="redirect-btn">
       <a href="/frontend/monitor.html">
         <button type="button"><i class="fas fa-heartbeat"></i> Go to Diagnostic System</button>
       </a>
     </div>
   </main>
-
   <script src=" scripts/form.js"></script>
-
   <script>
     function toggleNav() {
       document.getElementById("navLinks").classList.toggle("open");
     }
   </script>
-
-  <script>
-  function toggleNav() {
-    const nav = document.getElementById("navLinks");
-    nav.classList.toggle("open");
-  }
-
-    function toggleNav() {
-    const nav = document.getElementById("navLinks");
-    nav.classList.toggle("open");
-  }
-
-
-    function toggleNav() {
-    document.getElementById("navLinks").classList.toggle("open");
-  }
-</script>
-
-
 </body>
 </html>
