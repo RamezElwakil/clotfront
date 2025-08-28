@@ -3,7 +3,7 @@
 
 const CONFIG = {
     // Backend API Server URL
-    API_BASE_URL: 'https://backendclotcare-production.up.railway.app',
+    API_BASE_URL: 'https://web-production-980b9.up.railway.app',
     
     // API Endpoints
     ENDPOINTS: {
