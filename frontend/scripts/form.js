@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resultBox.style.color = "#ccc";
       resultBox.innerHTML = "⏳ Predicting risk...";
 
-      const response = await fetch("https://web-production-5936c.up.railway.app/predict", {
+      const response = await fetch(CONFIG.API_BASE_URL + CONFIG.ENDPOINTS.PREDICT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
