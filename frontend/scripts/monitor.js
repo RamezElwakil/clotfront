@@ -180,7 +180,7 @@ function updateStatus(state = 'normal') {
 }
 
 function updateCharts() {
-  fetch('https://web-production-5936c.up.railway.app/live-data')
+  fetch(CONFIG.API_BASE_URL + CONFIG.ENDPOINTS.LIVE_DATA)
     .then(response => response.json())
     .then(data => {
       chartData.time += 1;
